@@ -259,6 +259,104 @@ namespace MenuAgenda
                 Finalitzar = Convert.ToChar(Console.ReadLine());
             }
         }
+        static void EliminarUsuari()
+        {
+            char tornarEliminarUsuari = 'S';
+            string nomUsuari, usuario;
+            while (tornarEliminarUsuari != 'n' && tornarEliminarUsuari != 'N')
+            {
+                Console.Write("Quin usuari vols eliminar? ");
+                nomUsuari = Console.ReadLine();
+
+                usuario = RecuperarUsuari(nomUsuari);
+
+                var lineas = File.ReadAllLines("agenda.txt").ToList();
+                lineas.RemoveAll(linea => linea.Split(';')[0].Equals(nomUsuari));
+                File.WriteAllLines("agenda.txt", lineas.Where(linea => !string.IsNullOrWhiteSpace(linea)));
+
+                Console.WriteLine($"Usuari {nomUsuari} eliminat amb èxit.");
+                Console.Write("Vols tornar a eliminar un usuari? (S/N)");
+                tornarEliminarUsuari = Convert.ToChar(Console.ReadLine());
+            }
+
+        }
+        static void MostrarAgenda()
+        {
+            var lineas = File.ReadLines("agenda.txt")
+                .Select(linea => linea.Split(';'))
+                .Where(datos => datos.Length >= 4)
+                .Select(datos => new
+                {
+                    Nombre = datos[0],
+                    Telefono = datos[3]
+                })
+                .OrderBy(usuario => usuario.Nombre)
+                .ToList();
+
+            for (int i = 0; i < lineas.Count; i++)
+            {
+                Console.WriteLine($"Nombre: {lineas[i].Nombre}, Teléfono: {lineas[i].Telefono}");
+            }
+            RecuperarUsuariSegons();
+        }
+        static void OrdenarAgenda()
+        {
+            var lineas = File.ReadLines("agenda.txt")
+                .Select(linea => new
+                {
+                    Datos = linea.Split(';'),
+                    Nombre = linea.Split(';')[0]
+                })
+                .OrderBy(usuario => usuario.Nombre)
+                .Select(usuario => string.Join(";", usuario.Datos))
+                .ToList();
+
+            File.WriteAllLines("agenda.txt", lineas);
+            Console.WriteLine("La agenda a sido ordenada.");
+            RecuperarUsuariSegons();
+        }
+        static void RecuperarUsuariSegons()
+        {
+            int i = 5;
+            while (i != 0)
+            {
+                Console.Write("\r");
+                Console.Write($"Tornant al menu: {i}'s");
+                Thread.Sleep(1000);
+                i--;
+            }
+        }
+        static void DonarDAltaUsuariSegons()
+        {
+            int i = 3;
+            while (i != 0)
+            {
+                Console.Write("\r");
+                Console.Write($"Tornant al menu: {i}'s");
+                Thread.Sleep(1000);
+                i--;
+            }
+        }
+        static string CrearMenu()
+        {
+            string TextMenu =
+               " _________________________________________________________  \n" +
+               "|                     Agenda Oscar                        | \n" +
+               "|---------------------------------------------------------| \n" +
+               "|                     1) Donar alta Usuari                | \n" +
+               "|                     2) Recuperar Usuari                 | \n" +
+               "|                     3) Modificar Usuari                 | \n" +
+               "|                     4) Esborrar Usuari                  | \n" +
+               "|                     5) Mostrar Agenda                   | \n" +
+               "|                     6) Ordenar Agenda                   | \n" +
+               "|                                                         | \n" +
+               "|                                                         | \n" +
+               "|                     Q) Salir                            | \n" +
+               "|_________________________________________________________| \n" +
+               "                                                            \n";
+
+            return TextMenu;
+        }
 
     }
 }
