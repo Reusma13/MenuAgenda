@@ -27,7 +27,32 @@ namespace MenuAgenda
             Console.WriteLine("La agenda a sido ordenada.");
             RecuperarUsuariSegons();
         }
+        static void RecuperarUsuari()
+        {
+            char trobarUsuari = 'S';
+            while (trobarUsuari != 'N' && trobarUsuari != 'n')
+            {
+                Console.Clear();
+                Console.Write("Quin usuari vols trobar? ");
+                string nomUsuari = Console.ReadLine();
+
+                var linea = File.ReadLines("agenda.txt")
+                    .Select(linea => linea.Split(';')[0]).ToList(); // Ponemos que esta separado por ; i que el nombre de usuario es el primero
+
+                bool trobat = linea.Contains(nomUsuari);
+
+                if (trobat)
+                {
+                    Console.WriteLine($"Usuari: {nomUsuari} trobat.");
+                    trobarUsuari = 'N';
+                }
+                else
+                {
+                    Console.Write("Usuari no trobat. Vols trobar un altre usuari? (S/N)");
+                    trobarUsuari = Convert.ToChar(Console.ReadLine());
+                }
+            }
 
 
+        }
     }
-}
