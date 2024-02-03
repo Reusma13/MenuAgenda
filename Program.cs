@@ -78,6 +78,18 @@ namespace MenuAgenda
             }
             return nomUsuari;
         }
+        static void RecuperarUsuariSegons()
+        {
+            int i = 5;
+            while (i != 0)
+            {
+                Console.Write("\r");
+                Console.Write($"Tornant al menu: {i}'s");
+                Thread.Sleep(1000);
+                i--;
+            }
+        }
+
 
     }
 }
