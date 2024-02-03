@@ -89,6 +89,55 @@ namespace MenuAgenda
                 i--;
             }
         }
+        static void ModificarUsuari()
+        {
+            char Finalitzar = 'S';
+            Console.Write("Quin usuari vols trobar? ");
+            string nomUsuari = Console.ReadLine();
+            while (Finalitzar != 'N' && Finalitzar != 'n')
+            {
+                string usuari = RecuperarUsuari(nomUsuari);
+                Console.Write("Quina dada vols modificar? ");
+                string dada = Console.ReadLine();
+
+                Console.Write("Introdueix el nou valor: ");
+                string nouValor = Console.ReadLine();
+
+                var dadesUsuari = usuari.Split(';');
+
+                switch (dada.ToLower())
+                {
+                    case "nom":
+                        dadesUsuari[0] = nouValor;
+                        break;
+                    case "cognom":
+                        dadesUsuari[1] = nouValor;
+                        break;
+                    case "dni":
+                        dadesUsuari[2] = nouValor;
+                        break;
+                    case "telefon":
+                        dadesUsuari[3] = nouValor;
+                        break;
+                    case "datanaixament":
+                        dadesUsuari[4] = nouValor;
+                        break;
+                    case "correu":
+                        dadesUsuari[5] = nouValor;
+                        break;
+                    default:
+                        Console.WriteLine("Dada no existent.");
+                        return;
+                }
+                usuari = string.Join(";", dadesUsuari);
+                var lineas = File.ReadAllLines("agenda.txt").ToList();
+                int index = lineas.FindIndex(linea => linea.Split(';')[0] == nomUsuari);
+                lineas[index] = usuari;
+                File.WriteAllLines("agenda.txt", lineas);
+                Console.WriteLine($"Vols tornar a modifcar alguna dada de {nomUsuari}? (S/N)");
+                Finalitzar = Convert.ToChar(Console.ReadLine());
+            }
+        }
 
 
     }
