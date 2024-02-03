@@ -138,6 +138,27 @@ namespace MenuAgenda
                 Finalitzar = Convert.ToChar(Console.ReadLine());
             }
         }
+        static void EliminarUsuari()
+        {
+            char tornarEliminarUsuari = 'S';
+            string nomUsuari, usuario;
+            while (tornarEliminarUsuari != 'n' && tornarEliminarUsuari != 'N')
+            {
+                Console.Write("Quin usuari vols eliminar? ");
+                nomUsuari = Console.ReadLine();
+
+                usuario = RecuperarUsuari(nomUsuari);
+
+                var lineas = File.ReadAllLines("agenda.txt").ToList();
+                lineas.RemoveAll(linea => linea.Split(';')[0].Equals(nomUsuari));
+                File.WriteAllLines("agenda.txt", lineas.Where(linea => !string.IsNullOrWhiteSpace(linea)));
+
+                Console.WriteLine($"Usuari {nomUsuari} eliminat amb èxit.");
+                Console.Write("Vols tornar a eliminar un usuari? (S/N)");
+                tornarEliminarUsuari = Convert.ToChar(Console.ReadLine());
+            }
+
+        }
 
 
     }
