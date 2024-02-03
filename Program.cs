@@ -178,7 +178,24 @@ namespace MenuAgenda
             }
 
         }
+        static void MostrarAgenda()
+        {
+            var lineas = File.ReadLines("agenda.txt")
+                .Select(linea => linea.Split(';'))
+                .Where(datos => datos.Length >= 4)
+                .Select(datos => new
+                {
+                    Nombre = datos[0],
+                    Telefono = datos[3]
+                })
+                .OrderBy(usuario => usuario.Nombre)
+                .ToList();
+
+            for (int i = 0; i < lineas.Count; i++)
+            {
+                Console.WriteLine($"Nombre: {lineas[i].Nombre}, Teléfono: {lineas[i].Telefono}");
+            }
 
 
+        }
     }
-}
