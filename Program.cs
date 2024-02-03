@@ -11,6 +11,25 @@ namespace MenuAgenda
         {
             MostrarMenu();
         }
+        static DateTime ValidarDataNeixament(DateTime dataNaix)
+        {
+            Console.Clear();
+            bool dataValida = false;
+            while (!dataValida)
+            {
+                if (dataNaix > DateTime.Now)
+                {
+                    Console.Write("Data incorrecta.Introdueix un altre data de naixament: ");
+                    dataNaix = Convert.ToDateTime(Console.ReadLine());
+                }
+                else
+                {
+                    dataValida = true;
+                }
+            }
+            return dataNaix;
+        }
+
         static void OrdenarAgenda()
         {
             var lineas = File.ReadLines("agenda.txt")
